@@ -1,0 +1,26 @@
+/* Reset & Font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: #f1f2f4;
+  /* color: black; */
+}
+
+/* Reusable */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Flipkart Colors */
+:root {
+  --primary-blue: #2874f0;
+  --dark-blue: #0c3f91;
+  --yellow: #ffe500;
+}

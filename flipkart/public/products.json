@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Smartphone", "category": "Electronics", "price": 14999, "discount": 10, "image": "https://via.placeholder.com/200" },
+  { "id": 2, "name": "Laptop", "category": "Electronics", "price": 59999, "discount": 15, "image": "https://via.placeholder.com/200" },
+  { "id": 3, "name": "Shoes", "category": "Fashion", "price": 2499, "discount": 20, "image": "https://via.placeholder.com/200" },
+  { "id": 4, "name": "Watch", "category": "Fashion", "price": 3999, "discount": 5, "image": "https://via.placeholder.com/200" },
+  { "id": 5, "name": "Headphones", "category": "Electronics", "price": 1999, "discount": 25, "image": "https://via.placeholder8.com/200" }
+]
