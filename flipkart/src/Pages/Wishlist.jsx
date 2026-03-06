@@ -1,7 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/wishlist.css";
+import "../styles/Wishlist.css";
 
 const Wishlist = () => {
   const { wishlist, cart, removeFromWishlist, moveToCart } = useCart();
