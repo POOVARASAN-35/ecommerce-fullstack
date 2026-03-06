@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { products } from "../data/products";
 import "../styles/Checkout.css";
 
-const API = "http://localhost:5000/api/addresses";
+const API = "https://ecommerce-fullstack-0vqh.onrender.com/api/addresses";
 const USER_ID = "64f1abc1234567890abcd123";
 
 function Checkout() {
@@ -183,7 +183,7 @@ function Checkout() {
     //   address: `${address.address}, ${address.locality}, ${address.city}, ${address.state} - ${address.pincode}`,
     //   payment: payment.method
     // });
-    await fetch("http://localhost:5000/api/orders/confirm", {
+    await fetch("https://ecommerce-fullstack-0vqh.onrender.com/api/orders/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

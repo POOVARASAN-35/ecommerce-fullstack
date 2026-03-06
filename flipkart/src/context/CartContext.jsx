@@ -4,7 +4,7 @@ import axios from "axios";
 const CartContext = createContext();
 
 // 🔗 Backend API
-const WISHLIST_API = "http://localhost:5000/api/wishlist";
+const WISHLIST_API = "https://ecommerce-fullstack-0vqh.onrender.com/api/wishlist";
 
 // ⚠️ TEMP USER ID (replace with JWT later)
 const USER_ID = "65a9c9a4f0b2c1a123456789";
