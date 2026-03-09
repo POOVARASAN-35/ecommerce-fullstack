@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ProductCard.css";
 
-function ProductCard({ product, addToCart, addToWishlist }) {
+function ProductCard({ product }) {
+  const { addToCart, addToWishlist } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const navigate = useNavigate();
