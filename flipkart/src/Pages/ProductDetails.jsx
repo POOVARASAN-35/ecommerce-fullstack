@@ -103,9 +103,12 @@ function ProductDetails() {
             {product.discount && (
               <span className="discount-badge">-{product.discount}%</span>
             )}
-            <button 
-              className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
-              onClick={() => setIsWishlisted(!isWishlisted)}
+            <button
+              className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
+              onClick={() => {
+                setIsWishlisted(!isWishlisted);
+                addToWishlist(product);
+              }}
             >
               <FiHeart />
             </button>
