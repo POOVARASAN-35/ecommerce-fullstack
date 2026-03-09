@@ -3,39 +3,45 @@ import axios from "axios";
 
 const CartContext = createContext();
 
-// 🔗 Backend API
+// Backend API
 const WISHLIST_API = "https://ecommerce-fullstack-0vqh.onrender.com/api/wishlist";
 
-// ⚠️ TEMP USER ID (replace with JWT later)
+// Temporary user ID (replace later with authentication)
 const USER_ID = "65a9c9a4f0b2c1a123456789";
- 
+
 export const CartProvider = ({ children }) => {
+
   /* ================= CART STATE ================= */
+
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   /* ================= WISHLIST STATE ================= */
+
   const [wishlist, setWishlist] = useState([]);
   const [loadingWishlist, setLoadingWishlist] = useState(true);
 
-  /* ================= LOAD WISHLIST FROM DB ================= */
+  /* ================= LOAD WISHLIST FROM DATABASE ================= */
+
   useEffect(() => {
     const loadWishlist = async () => {
       try {
         const res = await axios.get(`${WISHLIST_API}/${USER_ID}`);
         setWishlist(res.data || []);
       } catch (err) {
-        console.error("Wishlist load failed", err);
+        console.error("Wishlist load failed:", err);
       } finally {
         setLoadingWishlist(false);
       }
     };
+
     loadWishlist();
   }, []);
 
   /* ================= SAVE CART TO LOCAL STORAGE ================= */
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -44,15 +50,28 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => item.id === product._id);
+
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
+          item.id === product._id
             ? { ...item, qty: item.qty + 1 }
             : item
         );
       }
-      return [...prev, { ...product, qty: 1 }];
+
+      return [
+        ...prev,
+        {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          stock: product.stock,
+          qty: 1
+        }
+      ];
     });
   };
 
@@ -77,37 +96,51 @@ export const CartProvider = ({ children }) => {
 
   const addToWishlist = async (product) => {
     try {
+
+      const exists = wishlist.find(
+        (item) => item.productId === product._id
+      );
+
+      if (exists) {
+        console.log("Already in wishlist");
+        return;
+      }
+
       const res = await axios.post(`${WISHLIST_API}/add`, {
         userId: USER_ID,
-        product
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        category: product.category,
+        stock: product.stock
       });
 
-      setWishlist((prev) => {
-        const exists = prev.find(
-          (item) => item.productId === product.id
-        );
-        if (exists) return prev;
-        return [...prev, res.data];
-      });
+      setWishlist((prev) => [...prev, res.data]);
+
     } catch (err) {
-      console.error("Add wishlist failed", err);
+      console.error("Add wishlist failed:", err);
     }
   };
 
   const removeFromWishlist = async (wishlistId) => {
     try {
+
       await axios.delete(`${WISHLIST_API}/${wishlistId}`);
+
       setWishlist((prev) =>
         prev.filter((item) => item._id !== wishlistId)
       );
+
     } catch (err) {
-      console.error("Remove wishlist failed", err);
+      console.error("Remove wishlist failed:", err);
     }
   };
 
   const moveToCart = (item) => {
+
     addToCart({
-      id: item.productId,
+      _id: item.productId,
       name: item.name,
       price: item.price,
       image: item.image,
@@ -117,6 +150,8 @@ export const CartProvider = ({ children }) => {
 
     removeFromWishlist(item._id);
   };
+
+  /* ================= PROVIDER ================= */
 
   return (
     <CartContext.Provider
