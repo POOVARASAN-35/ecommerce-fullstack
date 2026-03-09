@@ -56,3 +56,64 @@ exports.addToWishlist = async (req, res) => {
 
   }
 };
+
+
+/* 📥 Get Wishlist */
+exports.getWishlist = async (req, res) => {
+  try {
+
+    const items = await Wishlist.find({
+      userId: req.params.userId
+    });
+
+    res.json(items);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: "Error fetching wishlist",
+      error: err.message
+    });
+
+  }
+};
+
+
+/* ❌ Remove Item */
+exports.removeFromWishlist = async (req, res) => {
+  try {
+
+    await Wishlist.findByIdAndDelete(req.params.id);
+
+    res.json({ success: true });
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: "Error deleting wishlist item",
+      error: err.message
+    });
+
+  }
+};
+
+
+/* ❌ Clear All */
+exports.clearWishlist = async (req, res) => {
+  try {
+
+    await Wishlist.deleteMany({
+      userId: req.params.userId
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: "Error clearing wishlist",
+      error: err.message
+    });
+
+  }
+};
