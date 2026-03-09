@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const sendEmail = require("../utils/sendEmail");
 
+router.get("/", (req, res) => {
+  res.json({
+    message: "Orders API is working",
+    endpoint: "/api/orders/confirm"
+  });
+});
 /* CONFIRM ORDER + SEND EMAIL */
 router.post("/confirm", async (req, res) => {
   try {
