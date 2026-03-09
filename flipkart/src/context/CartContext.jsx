@@ -114,39 +114,43 @@ export const CartProvider = ({ children }) => {
   /* ================= WISHLIST FUNCTIONS ================= */
 
   const addToWishlist = async (product) => {
+  try {
 
-    try {
+    console.log("Adding product:", product); // debug
 
-      const exists = wishlist.find(
-        (item) => item.productId === String(product.id)
-      );
+    const exists = wishlist.find(
+      (item) => item.productId === String(product.id)
+    );
 
-      if (exists) {
-        console.log("Already in wishlist");
-        return;
-      }
-
-      const res = await axios.post(`${WISHLIST_API}/add`, {
-        userId: USER_ID,
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        oldPrice: product.oldPrice,
-        image: product.image,
-        category: product.category,
-        stock: product.stock,
-        rating: product.rating
-      });
-
-      setWishlist((prev) => [...prev, res.data]);
-
-    } catch (err) {
-
-      console.error("Add wishlist failed:", err);
-
+    if (exists) {
+      console.log("Already in wishlist");
+      return;
     }
 
-  };
+    const payload = {
+      userId: USER_ID,
+      productId: String(product.id),
+      name: product.name,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.image,
+      category: product.category,
+      stock: product.stock,
+      rating: product.rating
+    };
+
+    const res = await axios.post(`${WISHLIST_API}/add`, payload);
+
+    setWishlist((prev) => [...prev, res.data]);
+
+    console.log("Wishlist added:", res.data);
+
+  } catch (err) {
+
+    console.error("Wishlist error:", err.response?.data || err.message);
+
+  }
+};
 
   const removeFromWishlist = async (wishlistId) => {
 
