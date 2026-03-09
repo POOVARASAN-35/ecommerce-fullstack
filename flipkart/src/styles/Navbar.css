@@ -1,48 +1,320 @@
+/* Modern Navbar CSS with Bootstrap Icons */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #ff6b6b;
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s ease;
+}
+
 .navbar {
+  background: var(--primary-gradient);
+  padding: 0.8rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-blue);
-  padding: 10px 20px;
-  color: white;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Logo Styles */
+.nav-left {
+  flex-shrink: 0;
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   text-decoration: none;
+  color: var(--text-light);
+  transition: var(--transition);
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   color: white;
-  font-weight: bold;
-  font-size: 22px;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-main {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 .logo-sub {
-  font-size: 12px;
+  font-size: 0.7rem;
+  opacity: 0.9;
+  letter-spacing: 0.3px;
+}
+
+/* Search Bar Styles */
+.nav-search {
+  flex: 1;
+  display: flex;
+  max-width: 600px;
+  margin: 0 1rem;
+  background: white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.nav-search:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  background: white;
+  color: var(--text-dark);
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.search-button {
+  background: white;
+  border: none;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button i {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  transition: var(--transition);
+}
+
+.search-button:hover i {
+  transform: scale(1.1);
+  color: var(--secondary-color);
+}
+
+/* Navigation Items */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: var(--text-light);
+  text-decoration: none;
+  border-radius: 50px;
+  transition: var(--transition);
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+.nav-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Badge Styles */
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.3rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Profile Item */
+.profile-item {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: var(--transition);
+}
+
+.mobile-menu-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .nav-text {
+    display: none;
+  }
+  
+  .nav-item {
+    padding: 0.6rem;
+  }
+  
+  .nav-icon {
+    font-size: 1.4rem;
+  }
+  
+  .badge {
+    top: -5px;
+    right: -5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .nav-search {
+    display: none; /* Hide search on mobile, you might want to move it to a dropdown */
+  }
+
+  .nav-right {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: var(--primary-gradient);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+    transition: var(--transition);
+    z-index: 999;
+  }
+
+  .nav-right.active {
+    left: 0;
+  }
+
+  .nav-item {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .nav-text {
+    display: inline-block;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .logo-text {
+    display: none; /* Hide text on mobile, show only icon */
+  }
+
+  .logo-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Active Link Styles */
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.nav-item.active i {
   color: #ffe500;
 }
 
-.nav-search {
-  width: 50%;
-  display: flex;
+/* Hover Effects */
+.nav-item i {
+  transition: var(--transition);
 }
 
-.nav-search input {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  outline: none;
-  border-radius: 2px 0 0 2px;
+.nav-item:hover i {
+  transform: rotate(5deg);
 }
 
-.nav-search button {
-  background-color: #ffe500;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
-  font-weight: bold;
+/* Custom Scrollbar */
+.nav-right::-webkit-scrollbar {
+  width: 5px;
 }
 
-.nav-right .nav-item {
-  margin-left: 20px;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
+.nav-right::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-right::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }
