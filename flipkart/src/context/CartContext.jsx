@@ -8,7 +8,7 @@ const WISHLIST_API = "https://ecommerce-fullstack-0vqh.onrender.com/api/wishlist
 
 // ⚠️ TEMP USER ID (replace with JWT later)
 const USER_ID = "65a9c9a4f0b2c1a123456789";
-
+ 
 export const CartProvider = ({ children }) => {
   /* ================= CART STATE ================= */
   const [cart, setCart] = useState(() => {
