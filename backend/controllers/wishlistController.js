@@ -3,57 +3,120 @@ const Wishlist = require("../models/Wishlist");
 /* ➕ Add to Wishlist */
 exports.addToWishlist = async (req, res) => {
   try {
-    const { userId, product } = req.body;
 
+    const {
+      userId,
+      productId,
+      name,
+      price,
+      oldPrice,
+      image,
+      category,
+      stock,
+      rating
+    } = req.body;
+
+    // validation
+    if (!userId || !productId) {
+      return res.status(400).json({
+        message: "userId and productId required"
+      });
+    }
+
+    // check existing
     const exists = await Wishlist.findOne({
       userId,
-      productId: product.id
+      productId
     });
 
     if (exists) {
-      return res.json({ message: "Already in wishlist" });
+      return res.json(exists);
     }
 
+    // create wishlist item
     const item = await Wishlist.create({
       userId,
-      productId: product.id,
-      name: product.name,
-      price: product.price,
-      oldPrice: product.oldPrice,
-      image: product.image,
-      category: product.category,
-      stock: product.stock,
-      rating: product.rating
+      productId,
+      name,
+      price,
+      oldPrice,
+      image,
+      category,
+      stock,
+      rating
     });
 
-    res.json(item);
+    res.status(201).json(item);
+
   } catch (err) {
-    res.status(500).json(err);
+
+    console.error("Wishlist Error:", err);
+
+    res.status(500).json({
+      message: "Server error",
+      error: err.message
+    });
+
   }
 };
+
 
 /* 📥 Get Wishlist */
 exports.getWishlist = async (req, res) => {
   try {
-    const items = await Wishlist.find({ userId: req.params.userId });
+
+    const items = await Wishlist.find({
+      userId: req.params.userId
+    });
+
     res.json(items);
+
   } catch (err) {
-    res.status(500).json(err);
+
+    res.status(500).json({
+      message: "Error fetching wishlist",
+      error: err.message
+    });
+
   }
 };
 
-/* ❌ Remove */
+
+/* ❌ Remove Item */
 exports.removeFromWishlist = async (req, res) => {
   try {
+
     await Wishlist.findByIdAndDelete(req.params.id);
+
     res.json({ success: true });
+
   } catch (err) {
-    res.status(500).json(err);
+
+    res.status(500).json({
+      message: "Error deleting wishlist item",
+      error: err.message
+    });
+
   }
 };
+
 
 /* ❌ Clear All */
 exports.clearWishlist = async (req, res) => {
-  await Wishlist.deleteMany({ userId: req.params.userId });
-  res.json({ success: true });
+  try {
+
+    await Wishlist.deleteMany({
+      userId: req.params.userId
+    });
+
+    res.json({ success: true });
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: "Error clearing wishlist",
+      error: err.message
+    });
+
+  }
 };
