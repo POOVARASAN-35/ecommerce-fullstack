@@ -94,35 +94,78 @@ export const CartProvider = ({ children }) => {
 
   /* ================= WISHLIST FUNCTIONS ================= */
 
-  const addToWishlist = async (product) => {
-    try {
+  // const addToWishlist = async (product) => {
+  //   try {
 
-      const exists = wishlist.find(
-        (item) => item.productId === product._id
-      );
+  //     const exists = wishlist.find(
+  //       (item) => item.productId === product._id
+  //     );
 
-      if (exists) {
-        console.log("Already in wishlist");
-        return;
-      }
+  //     if (exists) {
+  //       console.log("Already in wishlist");
+  //       return;
+  //     }
 
-      const res = await axios.post(`${WISHLIST_API}/add`, {
-        userId: USER_ID,
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        category: product.category,
-        stock: product.stock
-      });
+  //     const res = await axios.post(`${WISHLIST_API}/add`, {
+  //       userId: USER_ID,
+  //       productId: product._id,
+  //       name: product.name,
+  //       price: product.price,
+  //       image: product.image,
+  //       category: product.category,
+  //       stock: product.stock
+  //     });
 
-      setWishlist((prev) => [...prev, res.data]);
+  //     setWishlist((prev) => [...prev, res.data]);
 
-    } catch (err) {
-      console.error("Add wishlist failed:", err);
+  //   } catch (err) {
+  //     console.error("Add wishlist failed:", err);
+  //   }
+  // };
+
+  exports.addToWishlist = async (req, res) => {
+  try {
+
+    const {
+      userId,
+      productId,
+      name,
+      price,
+      oldPrice,
+      image,
+      category,
+      stock,
+      rating
+    } = req.body;
+
+    const exists = await Wishlist.findOne({
+      userId,
+      productId
+    });
+
+    if (exists) {
+      return res.json({ message: "Already in wishlist" });
     }
-  };
 
+    const item = await Wishlist.create({
+      userId,
+      productId,
+      name,
+      price,
+      oldPrice,
+      image,
+      category,
+      stock,
+      rating
+    });
+
+    res.json(item);
+
+  } catch (err) {
+    console.error("Wishlist error:", err);
+    res.status(500).json(err);
+  }
+};
   const removeFromWishlist = async (wishlistId) => {
     try {
 
